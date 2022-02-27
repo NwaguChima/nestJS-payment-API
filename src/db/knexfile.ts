@@ -3,11 +3,11 @@ import { knexSnakeCaseMappers } from 'objection';
 
 export default {
   development: {
-    client: 'postgresql',
+    client: process.env.CLIENT,
     connection: {
-      database: 'test',
-      user: 'decagon',
-      password: 'Oluwachumzy1',
+      database: process.env.DATABASE,
+      user: process.env.USER,
+      password: process.env.PASSWORD,
     },
     pool: {
       min: 2,
