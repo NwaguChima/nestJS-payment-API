@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   ParseIntPipe,
   Patch,
@@ -11,7 +13,6 @@ import {
 } from '@nestjs/common';
 import { GetUser } from 'src/auth/decorator';
 import { JwtGuard } from 'src/auth/guard';
-import User from 'src/db/models/user';
 import { CreatePaymentDto, EditPaymentDto } from './dto';
 import { PaymentService } from './payment.service';
 
@@ -47,6 +48,7 @@ export class PaymentController {
     return this.paymentService.editPaymentById(userId, paymentId, dto);
   }
 
+  @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
   deletePaymentById(
     @GetUser('id') userId: number,
