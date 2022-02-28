@@ -12,8 +12,4 @@ export class CreatePaymentDto {
   @IsString()
   @IsOptional()
   description?: string;
-
-  @IsString()
-  @IsNotEmpty()
-  user_id: number;
 }

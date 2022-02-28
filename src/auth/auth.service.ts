@@ -38,9 +38,10 @@ export class AuthService {
     try {
       const userData = await User.query().where({ email: dto.email });
 
-      if (!userData) {
+      if (!userData || userData.length == 0) {
         throw new ForbiddenException('Credentials incorrect!');
       }
+
       const user = userData[0].toJSON() as Iuser;
 
       const pwMatches = await argon.verify(user.password, dto.password);

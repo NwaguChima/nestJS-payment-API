@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { GetUser } from 'src/auth/decorator';
 import { JwtGuard } from 'src/auth/guard';
+import User from 'src/db/models/user';
 import { CreatePaymentDto, EditPaymentDto } from './dto';
 import { PaymentService } from './payment.service';
 
@@ -24,17 +25,17 @@ export class PaymentController {
     return this.paymentService.getPayments(userId);
   }
 
+  @Post()
+  createPayment(@GetUser('id') userId: number, @Body() dto: CreatePaymentDto) {
+    return this.paymentService.createPayment(userId, dto);
+  }
+
   @Get(':id')
   getPaymentById(
     @GetUser('id') userId: number,
     @Param('id', ParseIntPipe) paymentId: number,
   ) {
     return this.paymentService.getPaymentById(userId, paymentId);
-  }
-
-  @Post()
-  createPayments(@GetUser('id') userId: number, @Body() dto: CreatePaymentDto) {
-    return this.paymentService.createPayments(userId, dto);
   }
 
   @Patch(':id')
