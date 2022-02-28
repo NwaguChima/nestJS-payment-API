@@ -5,14 +5,20 @@ import { EditUserDto } from './dto';
 @Injectable()
 export class UserService {
   async editUser(userId: number, dto: EditUserDto) {
-    const user = await User.query().patchAndFetchById(userId, dto);
+    try {
+      const user = await User.query().patchAndFetchById(userId, dto);
 
-    return user;
+      return user;
+    } catch (error) {
+      return error;
+    }
   }
 
   async deleteUser(userId: number) {
-    await User.query().deleteById(userId);
-
-    return { msg: 'User deleted' };
+    try {
+      await User.query().deleteById(userId);
+    } catch (error) {
+      return error;
+    }
   }
 }

@@ -1,4 +1,3 @@
-// Update with your config settings.
 import { knexSnakeCaseMappers } from 'objection';
 
 export default {

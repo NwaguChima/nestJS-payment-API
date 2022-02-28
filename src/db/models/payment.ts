@@ -1,5 +1,4 @@
 import { Model, RelationMappings, RelationMappingsThunk } from 'objection';
-// import User from './user';
 
 class Payment extends Model {
   static get tableName(): string {

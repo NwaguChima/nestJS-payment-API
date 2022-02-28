@@ -3,14 +3,7 @@ import User from 'src/db/models/user';
 import { AuthDto, AuthDtoLogin } from './dto';
 import * as argon from 'argon2';
 import { JwtService } from '@nestjs/jwt';
-// import { Model } from 'objection';
-
-export interface Iuser {
-  id: number;
-  password: string;
-  full_name: string;
-  email: string;
-}
+import { Iuser } from 'src/utils/userInterface';
 
 @Injectable()
 export class AuthService {
@@ -60,18 +53,22 @@ export class AuthService {
     userId: number,
     email: string,
   ): Promise<{ access_token: string }> {
-    const payload = {
-      sub: userId,
-      email,
-    };
+    try {
+      const payload = {
+        sub: userId,
+        email,
+      };
 
-    const token = await this.jwt.signAsync(payload, {
-      expiresIn: '15m',
-      secret: process.env.JWT_SECRET,
-    });
+      const token = await this.jwt.signAsync(payload, {
+        expiresIn: '15m',
+        secret: process.env.JWT_SECRET,
+      });
 
-    return {
-      access_token: token,
-    };
+      return {
+        access_token: token,
+      };
+    } catch (error) {
+      return error;
+    }
   }
 }
