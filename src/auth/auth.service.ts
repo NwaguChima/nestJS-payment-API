@@ -28,9 +28,7 @@ export class AuthService {
 
       const newUser = user.toJSON() as Iuser;
 
-      delete newUser.password;
-
-      return newUser;
+      return this.signToken(newUser.id, newUser.email);
     } catch (error) {
       return { status: error.status, message: error.message };
     }
@@ -51,22 +49,28 @@ export class AuthService {
         throw new ForbiddenException('Credentials incorrect!');
       }
 
-      delete user.password;
       return this.signToken(user.id, user.email);
     } catch (error) {
       return { status: error.status, message: error.message };
     }
   }
 
-  async signToken(userId: number, email: string): Promise<string> {
+  async signToken(
+    userId: number,
+    email: string,
+  ): Promise<{ access_token: string }> {
     const payload = {
       sub: userId,
       email,
     };
 
-    return this.jwt.signAsync(payload, {
+    const token = await this.jwt.signAsync(payload, {
       expiresIn: '15m',
       secret: process.env.JWT_SECRET,
     });
+
+    return {
+      access_token: token,
+    };
   }
 }
